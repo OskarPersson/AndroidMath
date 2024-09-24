@@ -207,6 +207,7 @@ public class FreeType {
 
     static { // Load library
         try {
+            System.loadLibrary("freetype2");
             System.loadLibrary("main");
 					/*
 			if (System.getProperty("os.name").toLowerCase().indexOf("win") >= 0) {
