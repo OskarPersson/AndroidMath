@@ -327,7 +327,9 @@ open class MTMathAtom(var type: MTMathAtomType, var nucleus: String) {
             val chStr = Character.toString(ch)
 
 
-            if (ch.toInt() < 0x21 || ch.toInt() > 0x7E) {
+            if (ch == 'å' || ch == 'ä' || ch == 'ö' || ch == 'Å' || ch == 'Ä' || ch == 'Ö') {
+                return atomWithType(MTMathAtomType.KMTMathAtomVariable, chStr)
+            } else if (ch.toInt() < 0x21 || ch.toInt() > 0x7E) {
                 // skip non ascii characters and spaces
                 return null
             } else if (ch == '$' || ch == '%' || ch == '#' || ch == '&' || ch == '~' || ch == '\'') {
