@@ -1,5 +1,7 @@
 package com.agog.mathdisplay.parse
 
+import kotlin.collections.mapOf
+
 
 class MathDisplayException(override var message: String) : Exception(message)
 
@@ -328,6 +330,28 @@ open class MTMathAtom(var type: MTMathAtomType, var nucleus: String) {
 
 
             if (ch == 'å' || ch == 'ä' || ch == 'ö' || ch == 'Å' || ch == 'Ä' || ch == 'Ö') {
+                val supportedAccented = mapOf<String, Pair<String, String>>(
+                    "ä" to Pair("ddot", "a"),
+                    "ö" to Pair("ddot", "o"),
+                    "å" to Pair("aa", ""),
+                )
+
+                val symbol = supportedAccented[ch.toString()]!!
+
+
+                if (atomForLatexSymbolName(symbol.first) != null) {
+                    return atomForLatexSymbolName(symbol.first)
+                }
+
+                if (MTMathAtomFactory().accentWithName(symbol.first) != null) {
+                    val accent = MTMathAtomFactory().accentWithName(symbol.first)!!
+                    val list = MTMathList()
+                    val ch = symbol.second[0]
+                    list.addAtom(atomForCharacter(ch)!!)
+                    accent.innerList = list
+                    return accent
+                }
+
                 return atomWithType(MTMathAtomType.KMTMathAtomVariable, chStr)
             } else if (ch.toInt() < 0x21 || ch.toInt() > 0x7E) {
                 // skip non ascii characters and spaces
