@@ -2,14 +2,26 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 34
+    compileSdkVersion 35
 
     defaultConfig {
         applicationId "com.agog.latexmathsample"
         minSdkVersion 24
-        targetSdkVersion 34
+        targetSdkVersion 35
         versionCode 1
         versionName "1.1"
+
+
+        kotlin {
+            jvmToolchain(17)
+        }
+
+        compileOptions {
+            sourceCompatibility = JavaVersion.VERSION_17
+            targetCompatibility = JavaVersion.VERSION_17
+        }
+
+
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
